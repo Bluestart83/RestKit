@@ -57,4 +57,6 @@
  */
 @property (nonatomic, strong) NSSet *acceptableContentTypes;
 
+@property (nonatomic) bool followRedirect;
+
 @end

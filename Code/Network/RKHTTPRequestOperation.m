@@ -42,6 +42,8 @@ NSString *RKStringFromIndexSet(NSIndexSet *indexSet); // Defined in RKResponseDe
 
 @implementation RKHTTPRequestOperation
 
+@synthesize followRedirect;
+
 + (BOOL)canProcessRequest:(NSURLRequest *)request
 {
     return YES;
@@ -56,6 +58,15 @@ NSString *RKStringFromIndexSet(NSIndexSet *indexSet); // Defined in RKResponseDe
 + (NSIndexSet *)acceptableStatusCodes
 {
     return nil;
+}
+
+- (id)initWithRequest:(NSURLRequest *)urlRequest;
+{
+    self = [super initWithRequest:urlRequest];
+    if(self) {
+        self.followRedirect = true;
+    }
+    return self;
 }
 
 - (BOOL)hasAcceptableStatusCode
@@ -116,7 +127,13 @@ NSString *RKStringFromIndexSet(NSIndexSet *indexSet); // Defined in RKResponseDe
     if ([AFHTTPRequestOperation instancesRespondToSelector:@selector(connection:willSendRequest:redirectResponse:)]) {
         NSURLRequest *returnValue = [super connection:connection willSendRequest:request redirectResponse:redirectResponse];
         if (returnValue) {
-            if (redirectResponse) RKLogDebug(@"Following redirect request: %@", returnValue);
+            if (redirectResponse ) {
+                if(!self.followRedirect) {
+                    NSLog(@"NOT Following redirect request: %@", returnValue);
+                    return nil;
+                }
+                RKLogDebug(@"Following redirect request: %@", returnValue);
+            }
             return returnValue;
         } else {
             RKLogDebug(@"Not following redirect to %@", request);

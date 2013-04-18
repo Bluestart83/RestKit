@@ -598,6 +598,7 @@ static NSString *RKMIMETypeFromAFHTTPClientParameterEncoding(AFHTTPClientParamet
     } else {
         // Non-Core Data operation
         operation = [self objectRequestOperationWithRequest:request success:nil failure:nil];
+        operation.HTTPRequestOperation.followRedirect = false; // Added to follow or not redirections
     }
     
     if (RKDoesArrayOfResponseDescriptorsContainMappingForClass(self.responseDescriptors, [object class])) operation.targetObject = object;
