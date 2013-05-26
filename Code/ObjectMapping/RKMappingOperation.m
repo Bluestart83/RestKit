@@ -337,6 +337,14 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
 {
     RKLogTrace(@"Found transformable value at keyPath '%@'. Transforming from type '%@' to '%@'", keyPath, NSStringFromClass([value class]), NSStringFromClass(destinationType));
     RKDateToStringValueTransformer *transformer = [[RKDateToStringValueTransformer alloc] initWithDateToStringFormatter:self.objectMapping.preferredDateFormatter stringToDateFormatters:self.objectMapping.dateFormatters];
+    
+    // Added to fix __NSCFBoolean vs NSCFBoolean issue on iOs5
+    Class sourceType = [value class];
+    if (([sourceType isSubclassOfClass:NSClassFromString(@"__NSCFBoolean")] ||
+              [sourceType isSubclassOfClass:NSClassFromString(@"NSCFBoolean")] ) &&
+             ([destinationType isSubclassOfClass:NSClassFromString(@"__NSCFBoolean")] || [destinationType isSubclassOfClass:NSClassFromString(@"NSCFBoolean")])) {
+        return value;
+    }
     id transformedValue = RKTransformedValueWithClass(value, destinationType, transformer);        
     if (transformedValue != value) return transformedValue;
     
@@ -514,7 +522,13 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
             continue;
         }
 
+        RKLogTrace(@"keyPath '%@' value = %@", attributeMapping.sourceKeyPath, [self.sourceObject valueForKeyPath:attributeMapping.sourceKeyPath]);
+        id myVal = [self.sourceObject valueForKeyPath:attributeMapping.sourceKeyPath];
+        
+        
         id value = (attributeMapping.sourceKeyPath == nil) ? self.sourceObject : [self.sourceObject valueForKeyPath:attributeMapping.sourceKeyPath];
+        
+        RKLogTrace(@"keyPath '%@' value = %@", value, myVal);
         if (value) {
             appliedMappings = YES;
             [self applyAttributeMapping:attributeMapping withValue:value];
