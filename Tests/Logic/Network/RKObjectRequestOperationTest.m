@@ -14,11 +14,11 @@
 
 @interface RKTestComplexUser : NSObject
 
-@property (nonatomic, retain) NSNumber *userID;
-@property (nonatomic, retain) NSString *firstname;
-@property (nonatomic, retain) NSString *lastname;
-@property (nonatomic, retain) NSString *email;
-@property (nonatomic, retain) NSString *phone;
+@property (nonatomic, strong) NSNumber *userID;
+@property (nonatomic, strong) NSString *firstname;
+@property (nonatomic, strong) NSString *lastname;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *phone;
 
 @end
 

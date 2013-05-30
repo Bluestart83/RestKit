@@ -51,8 +51,8 @@
     NSArray *_users;
 }
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSArray *users;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSArray *users;
 
 @end
 
@@ -84,8 +84,8 @@
     NSSet *_users;
 }
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSSet *users;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSSet *users;
 
 @end
 
