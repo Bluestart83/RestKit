@@ -756,7 +756,7 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
             //id nilReference = nil;
             id nilReference = [self.objectMapping shouldSetDefaultValueForMissingAttributes] ?
                  [self.objectMapping defaultValueForAttribute:relationshipMapping.destinationKeyPath] : nil;
-            NSLog(@"nilReference/ %d %d", [self.objectMapping shouldSetDefaultValueForMissingAttributes], [self.objectMapping setNilForMissingRelationships]);
+            //NSLog(@"nilReference/ %d %d", [self.objectMapping shouldSetDefaultValueForMissingAttributes], [self.objectMapping setNilForMissingRelationships]);
             if ([self.objectMapping setNilForMissingRelationships] && [self shouldSetValue:&nilReference atKeyPath:relationshipMapping.destinationKeyPath]) {
                 RKLogTrace(@"Setting nil for missing relationship value at keyPath '%@'", relationshipMapping.sourceKeyPath);
                 [self.destinationObject setValue:nilReference forKeyPath:relationshipMapping.destinationKeyPath];
